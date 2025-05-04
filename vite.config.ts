@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react({
       jsxImportSource: 'react',
-      jsxRuntime: 'automatic',
+      jsxRuntime: 'classic',
     }),
     mode === "development" && componentTagger(),
   ].filter(Boolean),
@@ -24,6 +24,7 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      'react/jsx-runtime': 'react/jsx-runtime.js',
     },
   },
 
@@ -31,6 +32,7 @@ export default defineConfig(({ mode }) => ({
     include: ['react-pdf', 'pdfjs-dist', '@radix-ui/react-context'],
     esbuildOptions: {
       target: 'esnext',
+      jsx: 'automatic',
     },
   },
 
@@ -42,6 +44,7 @@ export default defineConfig(({ mode }) => ({
       },
     },
     rollupOptions: {
+      external: ['react/jsx-runtime'],
       output: {
         manualChunks: {
           'pdfjs': ['pdfjs-dist'],
