@@ -14,7 +14,10 @@ export default defineConfig(({ mode }) => ({
   },
 
   plugins: [
-    react(),
+    react({
+      jsxImportSource: 'react',
+      jsxRuntime: 'automatic',
+    }),
     mode === "development" && componentTagger(),
   ].filter(Boolean),
 
@@ -25,7 +28,7 @@ export default defineConfig(({ mode }) => ({
   },
 
   optimizeDeps: {
-    include: ['react-pdf', 'pdfjs-dist'],
+    include: ['react-pdf', 'pdfjs-dist', '@radix-ui/react-context'],
     esbuildOptions: {
       target: 'esnext',
     },
@@ -33,15 +36,16 @@ export default defineConfig(({ mode }) => ({
 
   build: {
     commonjsOptions: {
-      include: [/react-pdf/, /pdfjs-dist/],
+      include: [/react-pdf/, /pdfjs-dist/, /@radix-ui/],
       transform: {
-        include: [/react-pdf/, /pdfjs-dist/],
+        include: [/react-pdf/, /pdfjs-dist/, /@radix-ui/],
       },
     },
     rollupOptions: {
       output: {
         manualChunks: {
           'pdfjs': ['pdfjs-dist'],
+          'radix': ['@radix-ui/react-context'],
         },
       },
     },
